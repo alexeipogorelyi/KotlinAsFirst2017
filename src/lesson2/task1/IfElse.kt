@@ -2,6 +2,7 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import lesson1.task1.sqr
 
 /**
  * Пример
@@ -52,7 +53,18 @@ fun ageDescription(age: Int): String {
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Nothing = TODO()
+                   t3: Double, v3: Double): Double {
+    val halfWay = (v1 * t1 + v2 * t2 + v3 * t3) / 2.0
+    val firstWay = v1 * t1
+    val secondWay = v2 * t2
+
+    return when {
+        (halfWay < firstWay) -> halfWay / v1
+        (halfWay in firstWay..(firstWay + secondWay)) -> t1 + (halfWay - firstWay) / v2
+        else -> t1 + t2 + (halfWay - firstWay - secondWay) / v3
+    }
+}
+
 
 
 
@@ -69,7 +81,15 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int {
+    return when {
+        ((kingX == rookX1 || kingY == rookY1) && (kingX != rookX2 && kingY != rookY2)) -> 1
+        ((kingX == rookX2 || kingY == rookY2) && (kingX != rookX1 && kingY != rookY1)) -> 2
+        ((kingX == rookX1 || kingX == rookX2) && (kingY == rookY1 || kingY == rookY2)) -> 3
+        else -> 0
+    }
+
+}
 
 /**
  * Простая
@@ -103,7 +123,25 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    val sqrA = sqr(a)
+    val sqrB = sqr(b)
+    val sqrC = sqr(c)
+
+    return when {
+        (a + b < c || a + c < b || b + c < a) -> -1
+        (sqrA == sqrB + sqrC || sqrB == sqrA + sqrC || sqrC == sqrB + sqrA) -> {
+            1
+        }
+        (sqrA > sqrB + sqrC || sqrB > sqrC + sqrA || sqrC > sqrB + sqrA) ->  2
+        else -> 0
+    }
+
+
+
+
+
+}
 
 /**
  * Средняя
