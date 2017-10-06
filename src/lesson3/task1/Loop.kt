@@ -134,7 +134,16 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var x = n
+    var revertX = 0
+    do {
+        revertX = (revertX * 10) + x % 10
+        x /= 10
+        } while (x != 0)
+    return revertX
+
+}
 
 /**
  * Средняя
