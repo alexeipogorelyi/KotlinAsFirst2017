@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 /**
@@ -34,7 +35,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -140,7 +141,7 @@ fun revert(n: Int): Int {
     do {
         revertX = (revertX * 10) + x % 10
         x /= 10
-        } while (x != 0)
+    } while (x != 0)
     return revertX
 
 }

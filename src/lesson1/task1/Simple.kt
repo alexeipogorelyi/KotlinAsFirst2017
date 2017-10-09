@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson1.task1
 
 import java.lang.Math.*
@@ -58,8 +59,6 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
 }
 
 
-
-
 /**
  * Тривиальная
  *
@@ -78,6 +77,7 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
  */
 fun angleInRadian(grad: Int, min: Int, sec: Int): Double =
         sec * (2 * PI / (360 * 3600)) + min * (2 * PI / (360 * 60)) + grad * (PI / 180)
+
 /**
  * Тривиальная
  *
@@ -89,6 +89,7 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
     val y = y2 - y1
     return sqrt(sqr(x) + sqr(y))
 }
+
 /**
  * Простая
  *
@@ -104,11 +105,9 @@ fun thirdDigit(number: Int): Int = (number / 100) % 10
  * прибыл на станцию назначения в h2 часов m2 минут того же дня (например в 13:01).
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
-fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
-    val allMinutesDepart = minutesDepart + hoursDepart * 60
-    val allMinutesArrive = minutesArrive + hoursArrive * 60
-    return allMinutesArrive - allMinutesDepart
-}
+fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int =
+        (minutesArrive + hoursArrive * 60) - (minutesDepart + hoursDepart * 60)
+
 
 /**
  * Простая
@@ -122,14 +121,6 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
     val firstYear = initial + initial * percent / 100
     val secondYear = firstYear + firstYear * percent / 100
     return secondYear + secondYear * percent / 100
-
-
-
-
-
-
-
-
 }
 
 /**
@@ -143,5 +134,4 @@ fun numberRevert(number: Int): Int {
     val y = number / 100
     val z = ((number / 10) % 10) * 10
     return x + y + z
-
 }
