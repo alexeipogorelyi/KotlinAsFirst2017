@@ -1,7 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import java.lang.Math.pow
 
 /**
  * Пример
@@ -106,14 +108,14 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double = TODO()
+fun abs(v: List<Double>): Double = Math.sqrt(v.map { it * it }.sum())
 
 /**
  * Простая
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+fun mean(list: List<Double>): Double = if (list.isEmpty()) 0.0 else list.sum() / list.size.toDouble()
 
 /**
  * Средняя
@@ -123,7 +125,14 @@ fun mean(list: List<Double>): Double = TODO()
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun center(list: MutableList<Double>): MutableList<Double> = TODO()
+fun center(list: MutableList<Double>): MutableList<Double> {
+    val average = mean(list)
+    for (i in 0 until list.size) {
+        list[i] -= average
+    }
+    return list
+}
+
 
 /**
  * Средняя
@@ -132,7 +141,16 @@ fun center(list: MutableList<Double>): MutableList<Double> = TODO()
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
-fun times(a: List<Double>, b: List<Double>): Double = TODO()
+fun times(a: List<Double>, b: List<Double>): Double {
+    var scalarComp = 0.0
+    val size = a.size
+    return if (a.isEmpty()) 0.0 else {
+        for (i in 0 until size) {
+            scalarComp += b[i] * a[i]
+        }
+        scalarComp
+    }
+}
 
 /**
  * Средняя
@@ -173,6 +191,7 @@ fun factorize(n: Int): List<Int> = TODO()
  */
 fun factorizeToString(n: Int): String = TODO()
 
+
 /**
  * Средняя
  *
@@ -180,7 +199,16 @@ fun factorizeToString(n: Int): String = TODO()
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    var z = n
+    val result = mutableListOf<Int>()
+    do {
+        result.add(z % base)
+        z /= base
+
+    } while (z > 0)
+    return result.reversed()
+}
 
 /**
  * Сложная
@@ -199,7 +227,16 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    var num = 0
+    var k = 0
+    for (i in digits.size - 1 downTo 0) {
+        num += digits[i] * pow(base.toDouble(), k.toDouble()).toInt()
+        k++
+    }
+    return num
+}
+
 
 /**
  * Сложная
@@ -210,7 +247,17 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    var num = 0
+    var k = 0
+    for (i in str.length - 1 downTo 0) {
+        if ((str[i] - '0') > 9)
+            num += (str[i] - 'W') * pow(base.toDouble(), k.toDouble()).toInt()
+        else num += (str[i] - '0') * pow(base.toDouble(), k.toDouble()).toInt()
+        k++
+    }
+    return num
+}
 
 /**
  * Сложная
@@ -220,7 +267,21 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    var num = n
+    var i = 12
+    var result = ""
+    val arabDig = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
+    val romanDig = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
+    while (num > 0) {
+        while (num >= arabDig[i]) {
+            num -= arabDig[i]
+            result += romanDig[i]
+        }
+        i--
+    }
+    return if (result != "") result else "error"
+}
 
 /**
  * Очень сложная
