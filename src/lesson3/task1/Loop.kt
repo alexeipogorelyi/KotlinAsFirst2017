@@ -2,7 +2,6 @@
 
 package lesson3.task1
 
-import javax.swing.text.html.HTML.Tag.P
 
 /**
  * Пример
@@ -64,15 +63,14 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int {
-    var x = 1
+    var x = 0
     var N = n
     do {
+        ++x
         N /= 10
-        if (N != 0) x++
     } while (N != 0)
     return x
 }
-
 
 /**
  * Простая
@@ -81,7 +79,6 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int = TODO()
-
 
 /**
  * Простая
@@ -97,15 +94,12 @@ fun lcm(m: Int, n: Int): Int = TODO()
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var m = 1
-    var p = 2
-    for (m in 1..n) {
-        if (n % p == 0)
-        else {
-            p++
+    var p = 0
+    for (m in 2..n)
+        if (n % m == 0) {
+            p = m
+            break
         }
-
-    }
     return p
 }
 
@@ -115,14 +109,12 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var m = 1
-    var p = 1
-    for (m in n - m downTo 1) {
-        if (n % m == 0) return m
-        else {
-            p++
+    var p = 0
+    for (m in n - 1 downTo 1)
+        if (n % m == 0) {
+            p = m
+            break
         }
-    }
     return p
 }
 
@@ -171,10 +163,10 @@ fun cos(x: Double, eps: Double): Double = TODO()
 fun revert(n: Int): Int {
     var x = n
     var revertX = 0
-    do {
+    while (x != 0) {
         revertX = (revertX * 10) + x % 10
         x /= 10
-    } while (x != 0)
+    }
     return revertX
 }
 
@@ -205,9 +197,17 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int {
-    val a: StringBuilder = StringBuilder("")
-    for (i in 1..n) a.append(i * i)
-    return a.get(n - 1).toString().toInt()
+    var numb = 0
+    var i = 0
+    while (numb < n) {
+        i++
+        numb += digitNumber(i * i)
+    }
+    var k = i * i
+    for (i in n until numb) {
+        k /= 10
+    }
+    return k % 10
 }
 
 /**
@@ -218,3 +218,5 @@ fun squareSequenceDigit(n: Int): Int {
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int = TODO()
+
+

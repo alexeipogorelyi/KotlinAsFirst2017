@@ -115,7 +115,7 @@ fun abs(v: List<Double>): Double = Math.sqrt(v.map { it * it }.sum())
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = if (list.isEmpty()) 0.0 else list.sum() / list.size.toDouble()
+fun mean(list: List<Double>): Double = if (list.isEmpty()) 0.0 else list.sum() / list.size
 
 /**
  * Средняя
@@ -143,13 +143,10 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  */
 fun times(a: List<Double>, b: List<Double>): Double {
     var scalarComp = 0.0
-    val size = a.size
-    return if (a.isEmpty()) 0.0 else {
-        for (i in 0 until size) {
-            scalarComp += b[i] * a[i]
-        }
-        scalarComp
+    for (i in 0 until a.size) {
+        scalarComp += b[i] * a[i]
     }
+    return scalarComp
 }
 
 /**
@@ -229,14 +226,12 @@ fun convertToString(n: Int, base: Int): String = TODO()
  */
 fun decimal(digits: List<Int>, base: Int): Int {
     var num = 0
-    var k = 0
-    for (i in digits.size - 1 downTo 0) {
-        num += digits[i] * pow(base.toDouble(), k.toDouble()).toInt()
-        k++
+    val k = digits.size - 1
+    for (i in k downTo 0) {
+        num += digits[i] * pow(base.toDouble(), (k - i).toDouble()).toInt()
     }
     return num
 }
-
 
 /**
  * Сложная
@@ -248,15 +243,12 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int {
-    var num = 0
-    var k = 0
-    for (i in str.length - 1 downTo 0) {
-        if ((str[i] - '0') > 9)
-            num += (str[i] - 'W') * pow(base.toDouble(), k.toDouble()).toInt()
-        else num += (str[i] - '0') * pow(base.toDouble(), k.toDouble()).toInt()
-        k++
-    }
-    return num
+    val x = mutableListOf<Int>()
+    for (char in str)
+        if (char in 'a'..'z')
+            x.add((char - 87).toInt())
+        else x.add(char.toString().toInt())
+    return decimal(x, base)
 }
 
 /**
@@ -268,19 +260,18 @@ fun decimalFromString(str: String, base: Int): Int {
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
+    val pair = mapOf(1 to "I", 4 to "IV", 5 to "V", 9 to "IX", 10 to "X", 40 to "XL",
+            50 to "L", 90 to "XC", 100 to "C", 400 to "CD", 500 to "D", 900 to "CM", 1000 to "M")
+    val res = StringBuilder()
     var num = n
-    var i = 12
-    var result = ""
-    val arabDig = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
-    val romanDig = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
     while (num > 0) {
-        while (num >= arabDig[i]) {
-            num -= arabDig[i]
-            result += romanDig[i]
-        }
-        i--
+        val analys = pair.keys.findLast { it <= num }
+        if (analys != null) analys.toInt()
+        else continue
+        num -= analys
+        res.append(pair[analys])
     }
-    return if (result != "") result else "error"
+    return res.toString()
 }
 
 /**
