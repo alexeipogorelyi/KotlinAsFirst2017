@@ -2,6 +2,8 @@
 
 package lesson3.task1
 
+import java.lang.Math.sqrt
+
 
 /**
  * Пример
@@ -94,13 +96,12 @@ fun lcm(m: Int, n: Int): Int = TODO()
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var p = 0
-    for (m in 2..n)
-        if (n % m == 0) {
-            p = m
-            break
-        }
-    return p
+    var sqrtN = Math.sqrt(n.toDouble()).toInt()
+    for (m in 2..sqrtN) {
+        if (n % m == 0)
+            return m
+    }
+    return n
 }
 
 /**
@@ -109,13 +110,12 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var p = 0
-    for (m in n - 1 downTo 1)
-        if (n % m == 0) {
-            p = m
-            break
-        }
-    return p
+    var x = n / 2
+    for (m in x downTo 1) {
+        if (n % m == 0)
+            return m
+    }
+    return n
 }
 
 /**
@@ -199,11 +199,12 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
 fun squareSequenceDigit(n: Int): Int {
     var numb = 0
     var i = 0
+    var k = 1
     while (numb < n) {
         i++
-        numb += digitNumber(i * i)
+        k = i * i
+        numb += digitNumber(k)
     }
-    var k = i * i
     for (i in n until numb) {
         k /= 10
     }
@@ -218,5 +219,6 @@ fun squareSequenceDigit(n: Int): Int {
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int = TODO()
+
 
 

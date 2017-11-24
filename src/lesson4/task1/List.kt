@@ -246,8 +246,8 @@ fun decimalFromString(str: String, base: Int): Int {
     val x = mutableListOf<Int>()
     for (char in str)
         if (char in 'a'..'z')
-            x.add((char - 87).toInt())
-        else x.add(char.toString().toInt())
+            x.add((char - 'a' + 10).toInt())
+        else x.add((char - '0').toString().toInt())
     return decimal(x, base)
 }
 
@@ -260,18 +260,19 @@ fun decimalFromString(str: String, base: Int): Int {
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    val pair = mapOf(1 to "I", 4 to "IV", 5 to "V", 9 to "IX", 10 to "X", 40 to "XL",
-            50 to "L", 90 to "XC", 100 to "C", 400 to "CD", 500 to "D", 900 to "CM", 1000 to "M")
-    val res = StringBuilder()
+    val listOfPairs = listOf(Pair(1000, "M"), Pair(900, "CM"), Pair(500, "D"), Pair(400, "CD"),
+            Pair(100, "C"), Pair(90, "XC"), Pair(50, "L"), Pair(40, "XL"), Pair(10, "X"), Pair(9, "IX"),
+            Pair(5, "V"), Pair(4, "IV"), Pair(1, "I"))
+    var res = ""
     var num = n
-    while (num > 0) {
-        val analys = pair.keys.findLast { it <= num }
-        if (analys != null) analys.toInt()
-        else continue
-        num -= analys
-        res.append(pair[analys])
+    for (i in 0 until listOfPairs.size) {
+        while (num >= listOfPairs[i].first) {
+            num -= listOfPairs[i].first
+            res += (listOfPairs[i].second)
+
+        }
     }
-    return res.toString()
+    return res
 }
 
 /**
