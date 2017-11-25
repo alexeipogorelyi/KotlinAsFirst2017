@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 /**
@@ -48,12 +49,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -89,7 +88,12 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    val num = Regex("""\+|\(|\)|-|\s""").replace(phone, "")
+    return if (num.contains(Regex("""\D"""))) ""
+    else if (phone.contains(Regex("""\+."""))) "+" + num
+    else num
+}
 
 /**
  * Средняя
@@ -113,7 +117,10 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val maxHigh = Regex("""\d+(?= [%+-]*\+)""").findAll(jumps)
+    return maxHigh.asSequence().map { it.value.toInt() }.max() ?: -1
+}
 
 /**
  * Сложная
@@ -135,7 +142,17 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val parts = str.toLowerCase().split(" ")
+    var i = 0
+    var res = 0
+    while (i < parts.size - 1 && parts[i] != parts[i + 1]) {
+        res += (parts[i].length + 1)
+        i++
+    }
+    if (i == parts.size - 1) return -1
+    else return res
+}
 
 /**
  * Сложная
