@@ -96,7 +96,7 @@ fun lcm(m: Int, n: Int): Int = TODO()
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var sqrtN = Math.sqrt(n.toDouble()).toInt()
+    val sqrtN = Math.sqrt(n.toDouble()).toInt()
     for (m in 2..sqrtN) {
         if (n % m == 0)
             return m
@@ -110,7 +110,7 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var x = n / 2
+    val x = n / minDivisor(n)
     for (m in x downTo 1) {
         if (n % m == 0)
             return m

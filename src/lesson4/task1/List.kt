@@ -247,7 +247,7 @@ fun decimalFromString(str: String, base: Int): Int {
     for (char in str)
         if (char in 'a'..'z')
             x.add((char - 'a' + 10).toInt())
-        else x.add((char - '0').toString().toInt())
+        else x.add((char - '0').toInt())
     return decimal(x, base)
 }
 
