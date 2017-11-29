@@ -86,7 +86,7 @@ data class Circle(val center: Point, val radius: Double) {
      *
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
-    fun contains(p: Point): Boolean = radius >= center.distance(p)
+    fun contains(p: Point) = radius >= center.distance(p)
 }
 
 /**
@@ -114,7 +114,7 @@ fun diameter(vararg points: Point): Segment = TODO()
  * Построить окружность по её диаметру, заданному двумя точками
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
-fun circleByDiameter(diameter: Segment): Circle =
+fun circleByDiameter(diameter: Segment) =
         Circle(Point((diameter.begin.x + diameter.end.x) / 2.0,
                 (diameter.begin.y + diameter.end.y) / 2.0),
                 diameter.begin.distance(diameter.end) / 2.0)
@@ -158,7 +158,7 @@ class Line private constructor(val b: Double, val angle: Double) {
  */
 fun lineBySegment(s: Segment): Line {
     var z = atan2((s.end.y - s.begin.y), (s.end.x - s.begin.x))
-    if (z > Math.PI) {
+    if (z == Math.PI) {
         z -= Math.PI
     }
     if (z < 0) {

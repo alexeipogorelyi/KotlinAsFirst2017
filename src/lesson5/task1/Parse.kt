@@ -119,7 +119,7 @@ fun bestLongJump(jumps: String): Int = TODO()
  */
 fun bestHighJump(jumps: String): Int {
     val maxHigh = Regex("""\d+(?= [%+-]*\+)""").findAll(jumps)
-    return maxHigh.asSequence().map { it.value.toInt() }.max() ?: -1
+    return maxHigh.map { it.value.toInt() }.max() ?: -1
 }
 
 /**

@@ -111,11 +111,7 @@ fun minDivisor(n: Int): Int {
  */
 fun maxDivisor(n: Int): Int {
     val x = n / minDivisor(n)
-    for (m in x downTo 1) {
-        if (n % m == 0)
-            return m
-    }
-    return n
+    return x
 }
 
 /**

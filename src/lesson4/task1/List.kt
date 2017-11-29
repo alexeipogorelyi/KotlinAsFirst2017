@@ -265,6 +265,7 @@ fun roman(n: Int): String {
             Pair(5, "V"), Pair(4, "IV"), Pair(1, "I"))
     var res = ""
     var num = n
+
     for (i in 0 until listOfPairs.size) {
         while (num >= listOfPairs[i].first) {
             num -= listOfPairs[i].first
