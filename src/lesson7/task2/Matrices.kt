@@ -1,6 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson7.task2
 
+import lesson3.task1.factorial
 import lesson7.task1.Matrix
 import lesson7.task1.createMatrix
 
@@ -75,7 +77,15 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
  *  1  2  2  2  2  1
  *  1  1  1  1  1  1
  */
-fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateRectangles(height: Int, width: Int): Matrix<Int> {
+    val matrix = createMatrix(height, width, 1)
+    for (i in 0 until matrix.height) {
+        for (j in 0 until matrix.width) {
+            matrix[i, j] = minOf(minOf(i + 1, j + 1, height - i), width - j)
+        }
+    }
+    return matrix
+}
 
 /**
  * Сложная
@@ -103,7 +113,16 @@ fun generateSnake(height: Int, width: Int): Matrix<Int> = TODO()
  * 4 5 6      8 5 2
  * 7 8 9      9 6 3
  */
-fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
+fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
+    val res = createMatrix(height = matrix.width, width = matrix.height, e = matrix[0, 0])
+    if (matrix.width != matrix.height) throw IllegalArgumentException()
+    for (i in 0..matrix.width - 1) {
+        for (j in 0..matrix.height - 1) {
+            res[i, j] = matrix[matrix.width - j - 1, i]
+        }
+    }
+    return res
+}
 
 /**
  * Сложная
@@ -119,7 +138,6 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
  * 3 1 2
  */
 fun isLatinSquare(matrix: Matrix<Int>): Boolean = TODO()
-
 /**
  * Средняя
  *
@@ -175,7 +193,18 @@ data class Holes(val rows: List<Int>, val columns: List<Int>)
  *
  * К примеру, центральный элемент 12 = 1 + 2 + 4 + 5, элемент в левом нижнем углу 12 = 1 + 4 + 7 и так далее.
  */
-fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> = TODO()
+fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> {
+    val matrix = createMatrix(matrix.height, matrix.width, 0)
+    for (i in 0 until matrix.height)
+        for (j in 0 until matrix.width) {
+            var sum = 0
+            for (m in 0..i)
+                for (n in 0..j)
+                    sum += matrix[m, n]
+            matrix[i, j] = sum
+        }
+    return matrix
+}
 
 /**
  * Сложная
