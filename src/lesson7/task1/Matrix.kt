@@ -41,12 +41,7 @@ interface Matrix<E> {
  * height = высота, width = ширина, e = чем заполнить элементы.
  * Бросить исключение IllegalArgumentException, если height или width <= 0.
  */
-fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
-    if ((width <= 0) || (height <= 0))
-        throw IllegalArgumentException()
-    else
-        return MatrixImpl(height, width, e)
-}
+fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> = MatrixImpl(height, width, e)
 
 /**
  * Средняя сложность
@@ -58,27 +53,40 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
     private val list = mutableListOf<E>()
 
     init {
-        for (i in 0..width * height) {
+        if (height <= 0 || width <= 0) throw IllegalArgumentException()
+        for (i in 0 until height * width)
             list.add(e)
-        }
     }
 
-    override fun get(row: Int, column: Int): E = list[height * column + row]
+    override fun get(row: Int, column: Int): E = if (column in 0 until width && row in 0 until height) list[height * column + row]
+    else throw IllegalArgumentException()
 
     override fun get(cell: Cell): E = list[height * cell.column + cell.row]
 
     override fun set(row: Int, column: Int, value: E) {
-        list[height * column + row] = value
+        if (column in 0 until width && row in 0 until height) list[height * column + row] = value
+        else throw IllegalArgumentException()
     }
 
     override fun set(cell: Cell, value: E) {
         list[height * cell.column + cell.row] = value
     }
 
-    override fun equals(other: Any?): Boolean =
-            other is MatrixImpl<*> &&
-                    width == other.width &&
-                    height == other.height
+    override fun equals(other: Any?): Boolean {
+        if ((other is Matrix<*>) && (height == other.height) && (width == other.width)) {
+            for (i in 0 until height) {
+
+                for (j in 0 until width) {
+
+                    if (other[i, j] != this[i, j]) {
+                        return false
+                    }
+                }
+            }
+            return true
+        }
+        return false
+    }
 
     override fun toString(): String {
         val res = StringBuilder()
@@ -91,4 +99,15 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
         }
         return "$res"
     }
+
+    override fun hashCode(): Int {
+        var result = height
+        result = 31 * result + width
+        result = 31 * result + list.hashCode()
+        return result
+    }
+
 }
+
+
+

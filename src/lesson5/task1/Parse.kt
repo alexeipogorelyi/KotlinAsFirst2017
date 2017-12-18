@@ -89,10 +89,9 @@ fun dateDigitToStr(digital: String): String = TODO()
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    val num = Regex("""\+|\(|\)|-|\s""").replace(phone, "")
-    return if (num.contains(Regex("""\D"""))) ""
-    else if (phone.contains(Regex("""\+."""))) "+" + num
-    else num
+    if (Regex("[-()\\s]+").replace(phone, "").matches(Regex("""\+?\d+""")))
+        return Regex("[-()\\s]+").replace(phone, "")
+    else return ""
 }
 
 /**
@@ -118,6 +117,9 @@ fun bestLongJump(jumps: String): Int = TODO()
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
+    val isJumps = Regex("""\d+\s+[-+%]+\s+""").replace(jumps + " ", "")
+    if (!isJumps.matches(Regex("\\s*"))) return -1
+
     val maxHigh = Regex("""\d+(?= [%+-]*\+)""").findAll(jumps)
     return maxHigh.map { it.value.toInt() }.max() ?: -1
 }
@@ -144,14 +146,16 @@ fun plusMinus(expression: String): Int = TODO()
  */
 fun firstDuplicateIndex(str: String): Int {
     val parts = str.toLowerCase().split(" ")
-    var i = 0
+    var i = 1
     var res = 0
-    while (i < parts.size - 1 && parts[i] != parts[i + 1]) {
-        res += (parts[i].length + 1)
+    while (i < parts.size) {
+        if (parts[i - 1] == parts[i]) {
+            return res
+        }
+        res += (parts[i - 1].length + 1)
         i++
     }
-    if (i == parts.size - 1) return -1
-    else return res
+    return -1
 }
 
 /**

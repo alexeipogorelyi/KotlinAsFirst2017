@@ -266,15 +266,16 @@ fun roman(n: Int): String {
     val res = StringBuilder()
     var num = n
 
-    for (i in 0 until listOfPairs.size) {
-        while (num >= listOfPairs[i].first) {
-            num -= listOfPairs[i].first
-            res.append(listOfPairs[i].second)
+    for (element in listOfPairs) {
+        while (num >= element.first) {
+            num -= element.first
+            res.append(element.second)
 
         }
     }
     return res.toString()
 }
+
 
 /**
  * Очень сложная
